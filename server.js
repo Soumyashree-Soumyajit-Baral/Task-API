@@ -22,6 +22,7 @@ mongoose.connect("mongodb://localhost/task2",()=>{
     console.log(err)
 })
 
+//test-case-1
 app.post("/add",(req,res)=>{
     
     taskModel.find({title:req.body.title}).then((val)=>{
@@ -41,6 +42,7 @@ app.post("/add",(req,res)=>{
     })
 })
 
+//test-case-2
 app.get("/tasks",(req,res)=>{
     taskModel.find().then((data)=>{
         res.status(200).send(data)
@@ -48,6 +50,8 @@ app.get("/tasks",(req,res)=>{
         res.status(400).send(err.message)
     })
 })
+
+//test-case-3
 app.get("/tasks/:id",(req,res)=>{
     taskModel.find({id:req.params.id}).then((data)=>{
         if(data.length){
@@ -60,6 +64,8 @@ app.get("/tasks/:id",(req,res)=>{
     })
 })
 
+
+//test-case-4
 app.delete("/tasks/:id",(req,res)=>{
     taskModel.deleteOne({id:req.params.id}).then((data)=>{
         res.status(204).send("Task deleted sucessfully")
@@ -68,6 +74,7 @@ app.delete("/tasks/:id",(req,res)=>{
     })
 })
 
+//test-case-5
 app.put("/tasks/:id",(req,res)=>{
     taskModel.find({id:req.params.id}).then((data)=>{
         if(data.length){
@@ -84,12 +91,11 @@ app.put("/tasks/:id",(req,res)=>{
         }
     })
 })
-let arr=[]
+
+//test-case-6
 app.post("/tasks",(req,res)=>{
     let addTasks=req.body.tasks
-    console.log(addTasks)
-    
-    let arr1=[]
+    let arr=[]
     for(let i=0;i<addTasks.length;i++){
         taskModel.find({title:addTasks[i].title}).then((val)=>{
             if(!val.length){
@@ -99,9 +105,7 @@ app.post("/tasks",(req,res)=>{
                     title:addTasks[i].title,
                     iscompleted:addTasks[i].iscompleted
                 }).then((data)=>{
-                    console.log(data.id)
                     arr.push({id:data.id})
-                    arr1=[...arr]
                     console.log(arr)
                 }).catch((err)=>{
                     res.status(400)
@@ -109,10 +113,10 @@ app.post("/tasks",(req,res)=>{
             }
         })
     }
-    console.log(arr1)
-    res.status(200).send({tasks:arr})
+    res.status(201).send("All the tasks added sucessfully")
 })
 
+//test-case-7
 app.delete("/tasks",(req,res)=>{
     let dTasks=req.body.tasks
     // console.log(dTasks)
